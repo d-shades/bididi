@@ -25,6 +25,10 @@ class Song:
     album: Album
     times_listened: int = 0
 
+    def play(self):
+        self.times_listened += 1
+        self.artist.times_listened += 1
+
 
 class SongCollection:
     """
@@ -34,11 +38,11 @@ class SongCollection:
         self.collection = []
 
     def save_collection(self):
-        with open("collection.pkl", "w", encodign="utf-8") as io:
+        with open("collection.pkl", "wb") as io:
             pickle.dump(self.collection, io)
 
     def read_collection(self):
-        with open("collection.pkl") as io:
+        with open("collection.pkl", "rb") as io:
             return pickle.load(io, encoding="utf-8")
 
     def add_to_collection(self, song):
@@ -62,12 +66,18 @@ class SongPublisher:
         return Song(title, artist, published_date, duration, '', album)
 
     @classmethod
-    def publish_song(cls,
-        song_title: str, artist_name: str, album_title: str, published_date: datetime, duration: int,
-    ) -> None:
-        artist = cls.create_artist(artist_name)
-        album = cls.create_album(album_title, published_date)
-        song = cls.create_song(song_title, artist, album, published_date, duration)
+    def publish_song(cls, song: Song) -> None:
         collection = SongCollection()
         collection.add_to_collection(song)
         collection.save_collection()
+
+
+class SongPlayer:
+
+    @classmethod
+    def play_song(cls, song):
+        song.play()
+
+if __name__ == "__main__":
+    # example
+    pass
