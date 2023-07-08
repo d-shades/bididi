@@ -1,3 +1,9 @@
+"""
+>>> SongPublisher.create_artist("Artista")
+Artist(name='Artista', times_listened=0)
+"""
+import pytest
+
 from dataclasses import dataclass
 from datetime import datetime
 import pickle
@@ -52,17 +58,18 @@ class SongCollection:
 class SongPublisher:
     """
     Publish song in collection.
+
     """
     @classmethod
-    def create_artist(name: str) -> Artist:
+    def create_artist(cls, name: str) -> Artist:
         return Artist(name) 
     
     @classmethod
-    def create_album(name: str, date_published: datetime) -> Album:
+    def create_album(cls, name: str, date_published: datetime) -> Album:
         return Album(name, date_published.year)
 
     @classmethod
-    def create_song(title: str, artist: Artist, album: Album, published_date: datetime, duration: int) -> Song:
+    def create_song(cls, title: str, artist: Artist, album: Album, published_date: datetime, duration: int) -> Song:
         return Song(title, artist, published_date, duration, '', album)
 
     @classmethod
@@ -80,4 +87,4 @@ class SongPlayer:
 
 if __name__ == "__main__":
     # example
-    pass
+    pytest.doctest()
